@@ -86,7 +86,7 @@ jobs:
         run: npm ci || { echo "npm ci failed, retrying in 5s..."; sleep 5; npm ci; } || { echo "npm ci failed, retrying in 10s..."; sleep 10; npm ci; }
 
       - name: Restore Next.js build cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ${{ github.workspace }}/.next/cache
           # Re-use the cache when dependencies and source are unchanged; fall
