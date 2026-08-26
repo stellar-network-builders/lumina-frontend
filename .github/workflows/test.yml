@@ -39,7 +39,7 @@ jobs:
 
       - name: Upload Storybook inventory report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: storybook-coverage-inventory
           path: reports/storybook-coverage.md
@@ -140,7 +140,7 @@ jobs:
 
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: coverage/
@@ -176,7 +176,7 @@ jobs:
         run: node scripts/check-bundle-budgets.mjs
 
       - name: Upload bundle analysis report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bundle-analysis
           path: .next/analyze/
@@ -301,7 +301,7 @@ jobs:
 
       - name: Upload Lighthouse report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-report
           path: |
