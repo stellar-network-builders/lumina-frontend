@@ -19,7 +19,9 @@
     "generate:types": "openapi-typescript $NEXT_PUBLIC_API_URL/openapi.json --output src/types/api.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "storybook:check-coverage": "node scripts/check-storybook-coverage.mjs"
+    "storybook:check-coverage": "node scripts/check-storybook-coverage.mjs",
+    "check:bundle-budgets": "node scripts/check-bundle-budgets.mjs",
+    "check:links": "node scripts/check-links.mjs"
   },
   "engines": {
     "node": ">=20.9.0"

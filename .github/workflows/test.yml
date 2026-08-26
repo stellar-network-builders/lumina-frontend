@@ -147,8 +147,8 @@ jobs:
           if-no-files-found: ignore
 
   # ───────────────────────────────────────────────────────────────────────────
-  # Bundle size analysis — builds with @next/bundle-analyzer and publishes the
-  # interactive treemaps as artifacts for size review on each PR.
+  # Bundle size analysis — builds with @next/bundle-analyzer, publishes the
+  # interactive treemaps as artifacts, and enforces size budgets.
   # ───────────────────────────────────────────────────────────────────────────
   bundle-analysis:
     name: Bundle size analysis
@@ -172,12 +172,37 @@ jobs:
           ANALYZE: 'true'
           NEXT_TELEMETRY_DISABLED: '1'
 
+      - name: Check bundle budgets
+        run: node scripts/check-bundle-budgets.mjs
+
       - name: Upload bundle analysis report
         uses: actions/upload-artifact@v4
         with:
           name: bundle-analysis
           path: .next/analyze/
           if-no-files-found: warn
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Broken link detection and asset validation — scans source files for
+  # references to local assets and verifies they exist in /public.
+  # ───────────────────────────────────────────────────────────────────────────
+  link-validation:
+    name: Link & asset validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci || { echo "npm ci failed, retrying in 5s..."; sleep 5; npm ci; } || { echo "npm ci failed, retrying in 10s..."; sleep 10; npm ci; }
+
+      - name: Check for broken links and missing assets
+        run: node scripts/check-links.mjs
 
   # ───────────────────────────────────────────────────────────────────────────
   # Accessibility: Tailwind color-contrast audit (WCAG AA).
